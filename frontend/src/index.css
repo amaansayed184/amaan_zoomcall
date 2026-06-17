@@ -5,13 +5,13 @@
 }
 
 :root {
-  --primary-color: #ff0000;
-  --secondary-color: #cc0000;
-  --accent-color: #ff3333;
-  --bg-gradient: #000000;
-  --glass-bg: rgba(255, 0, 0, 0.05);
-  --glass-border: rgba(255, 0, 0, 0.2);
-  --glass-shadow: 0 8px 32px 0 rgba(255, 0, 0, 0.15);
+  --primary-color: #6366f1;
+  --secondary-color: #8b5cf6;
+  --accent-color: #f43f5e;
+  --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
   --text-main: #f8fafc;
   --text-muted: #cbd5e1;
 }
