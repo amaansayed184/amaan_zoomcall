@@ -1,0 +1,12 @@
+
+> backend@1.0.0 start
+> node src/app.js
+
+mongo connected: ac-gx7czve-shard-00-00.nn7xtxy.mongodb.net
+listening to port 8000
+SOMETHING CONNECTED
+SOMETHING CONNECTED
+SOMETHING CONNECTED
+SOMETHING CONNECTED
+SOMETHING CONNECTED
+SOMETHING CONNECTED

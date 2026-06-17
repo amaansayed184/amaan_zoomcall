@@ -40,7 +40,7 @@ export default function VideoMeetComponent() {
 
     let [screen, setScreen] = useState();
 
-    let [showModal, setModal] = useState(true);
+    let [showModal, setModal] = useState(false);
 
     let [screenAvailable, setScreenAvailable] = useState();
 
@@ -279,7 +279,7 @@ export default function VideoMeetComponent() {
         socketRef.current.on('signal', gotMessageFromServer)
 
         socketRef.current.on('connect', () => {
-            socketRef.current.emit('join-call', window.location.href)
+            socketRef.current.emit('join-call', window.location.href, username)
             socketIdRef.current = socketRef.current.id
 
             socketRef.current.on('chat-message', addMessage)
@@ -288,7 +288,7 @@ export default function VideoMeetComponent() {
                 setVideos((videos) => videos.filter((video) => video.socketId !== id))
             })
 
-            socketRef.current.on('user-joined', (id, clients) => {
+            socketRef.current.on('user-joined', (id, clients, userNames) => {
                 clients.forEach((socketListId) => {
 
                     connections[socketListId] = new RTCPeerConnection(peerConfigConnections)
@@ -324,7 +324,8 @@ export default function VideoMeetComponent() {
                                 socketId: socketListId,
                                 stream: event.stream,
                                 autoplay: true,
-                                playsinline: true
+                                playsinline: true,
+                                username: userNames ? userNames[socketListId] : socketListId
                             };
 
                             setVideos(videos => {
@@ -345,6 +346,15 @@ export default function VideoMeetComponent() {
                         connections[socketListId].addStream(window.localStream)
                     }
                 })
+
+                    setVideos((videos) => {
+                        return videos.map(v => {
+                            if (userNames && userNames[v.socketId]) {
+                                return { ...v, username: userNames[v.socketId] }
+                            }
+                            return v;
+                        })
+                    });
 
                 if (id === socketIdRef.current) {
                     for (let id2 in connections) {
@@ -570,8 +580,8 @@ export default function VideoMeetComponent() {
 
                     <div className={styles.conferenceView}>
                         {videos.map((video) => (
-                            <div key={video.socketId}>
-                                <div className={styles.participantLabel}>{video.socketId}</div>
+                            <div key={video.socketId} style={{ position: 'relative' }}>
+                                <div className={styles.participantLabel}>{video.username || video.socketId}</div>
                                 <video
 
                                     data-socket={video.socketId}
